@@ -1,14 +1,15 @@
-# utaustinvilla3d
+# Wits FC
 ---
-UT Austin Villa RoboCup 3D simulation team base code release
+This is the modification of the code UT Austin Villa base release for RoboCup 3D simulation.
 
 ### About: 
-This release is based off the UT Austin Villa RoboCup 3D simulation league team.  
+This release is based off the UT Austin Villa RoboCup 3D simulation league team and modified for the Wits FC team.  
 
+The demo behavior that came with this code is found on the following links:
 ![demobehavior](https://cloud.githubusercontent.com/assets/7802157/17454416/142ef6c4-5b5a-11e6-900d-7b4fe81beb79.png)
 *Video of default demo behavior: ([YouTube](https://www.youtube.com/watch?v=b47enPRhFR4), [mp4](http://www.cs.utexas.edu/~AustinVilla/sim/3dsimulation/AustinVilla3DSimulationFiles/2016/videos/UTABaseCodeReleaseDemoBehavior.mp4))*
 
-#### What it includes:
+#### What the code came with:
 * Omnidirectional walk engine based on a double inverted pendulum model 
 * A skill description language for specifying parameterized skills/behaviors
 * Getup behaviors for all agent types
@@ -23,10 +24,12 @@ This release is based off the UT Austin Villa RoboCup 3D simulation league team.
 * Support for Gazebo RoboCup 3D simulation plugin (https://bitbucket.org/osrf/robocup3ds)
 * Scripts and code for collecting game statistics
 
-#### What is not included: 
+#### What was not included: 
 * The team's complete set of skills such as long kicks and goalie dives
 * Optimized parameters for behaviors such as the team's fastest walks (slow and stable walk engine parameters are included, as well as optimized walk engine parameters for positioning/dribbling and approaching the ball to kick)
 * High level strategy including formations and role assignment
+
+### What we implemented:
 
 
 ### Requirements:
