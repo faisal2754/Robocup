@@ -1,6 +1,6 @@
 # Wits FC
 ---
-This is the modification of the code UT Austin Villa base release for RoboCup 3D simulation.
+This is a modification of the code from UT Austin Villa base release for RoboCup 3D simulation for the Wits FC team.
 
 ### About: 
 This release is based off the UT Austin Villa RoboCup 3D simulation league team and modified for the Wits FC team.  
