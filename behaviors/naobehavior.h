@@ -133,6 +133,7 @@ protected:
     // ---------  TO BE OVERRIDEN BY AGENTS...
     virtual SkillType selectSkill();
     virtual void beam( double& beamX, double& beamY, double& beamAngle );
+    virtual void formation( double& beamX, double& beamY, double& beamAngle );
     virtual void updateFitness() {}
 
     // ----------------------------------------------------
@@ -226,6 +227,10 @@ protected:
     double getStdNameParameter(const SkillType kick_skill, const std::string& parameter);
     void getSkillsForKickType(int kickType, SkillType skillsForType[]);
 
+    SkillType goToPosBeforeKickOff(int pNum);
+    SkillType goToPosTheirKickOff(int pNum);
+    SkillType goToPosOurKickOff(int pNum);
+    SkillType scoreGoal();
     SkillType demoKickingCircle();
 
 public:
