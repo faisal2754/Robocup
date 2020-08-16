@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Assembly AI start script for 3D Simulation Competitions
+# Walking Dead AI start script for 3D Simulation Competitions
 #
 
 
@@ -8,7 +8,7 @@ AGENT_BINARY=agentspark
 BINARY_DIR="."
 LIBS_DIR="./libs"
 NUM_PLAYERS=2
-team="AssemblyAI"
+team="WalkingDeadAI"
 host="localhost"
 port=3100
 paramsfile=paramfiles/defaultParams.txt
