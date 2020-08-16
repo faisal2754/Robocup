@@ -7,9 +7,9 @@
 AGENT_BINARY=agentspark
 BINARY_DIR="."
 LIBS_DIR="./libs"
-NUM_PLAYERS=11
+NUM_PLAYERS=2
 
-team="UTAustinVilla_Base"
+team="Andries FC"
 host="localhost"
 port=3100
 paramsfile=paramfiles/defaultParams.txt

@@ -28,7 +28,7 @@ SkillType NaoBehavior::kickBall(const int kickTypeToUse, const VecPosition &targ
 
     kickType = kickTypeToUse;
 
-    if (me.getDistanceTo(ball) > 1) {
+    if (me.getDistanceTo(ball) > 0.6) {
         // Far away from the ball so walk toward target offset from the ball
         VecPosition approachBallTarget = ball - kickDirection*atof(namedParams.find("drib_target")->second.c_str());
         return goToTarget(approachBallTarget);
@@ -80,7 +80,7 @@ SkillType NaoBehavior::kickBallAtPresetTarget() {
 
     // If we're within 1 meter of the ball and not dribbling, we need to select a kick and position ourselves
     // Dribbling is handled later
-    if (me.getDistanceTo(ball) <= 1 && KICK_DRIBBLE != kickType) {
+    if (me.getDistanceTo(ball) <= 0.95 && KICK_DRIBBLE != kickType) {
         // Figure out which kick to use (left or right foot)
         SkillType kick;
         double ball_dist;
@@ -304,9 +304,9 @@ SkillType NaoBehavior::kickBallAtTargetSimplePositioning(const VecPosition &targ
     theta = Deg2Rad(theta);
 
     double distToTargetX = abs(targetLoc.getX());
-    if (distToTargetX > 2 * BUFFER_DIST) distToTargetX -= BUFFER_DIST;
+    // if (distToTargetX > 2 * BUFFER_DIST) distToTargetX -= BUFFER_DIST;
     double distToTargetY = abs(targetLoc.getY());
-    if (distToTargetY > 2 * BUFFER_DIST) distToTargetY -= BUFFER_DIST;
+    // if (distToTargetY > 2 * BUFFER_DIST) distToTargetY -= BUFFER_DIST;
     double velX = sqrt(2 * MAX_DECEL_X * distToTargetX);
     double velY = sqrt(2 * MAX_DECEL_Y * distToTargetY);
     double desiredVel = hypot(velX, velY);

@@ -226,7 +226,8 @@ protected:
     double getStdNameParameter(const SkillType kick_skill, const std::string& parameter);
     void getSkillsForKickType(int kickType, SkillType skillsForType[]);
 
-    SkillType demoKickingCircle();
+    SkillType Striker();
+    SkillType Defender();
 
 public:
 
