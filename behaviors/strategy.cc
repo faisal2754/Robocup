@@ -20,12 +20,12 @@ void NaoBehavior::beam( double& beamX, double& beamY, double& beamAngle ) {
 		beamX = 0;
     	beamY = 0;
     	beamAngle = 0;
-	    } 
+        }
         else if(worldModel->getUNum() == 2){
 		beamX = 0;
     	beamY = 0;
     	beamAngle = 0;
-        }
+    }
     }
     //formation(beamX, beamY, beamAngle);
 }
@@ -33,11 +33,11 @@ void NaoBehavior::beam( double& beamX, double& beamY, double& beamAngle ) {
 void NaoBehavior::formation( double& beamX, double& beamY, double& beamAngle ) {
     
 	if(worldModel->getUNum() == 1){
-		beamX = -HALF_FIELD_X +13;
-    	beamY = 1.5;
+		beamX = -HALF_FIELD_X + 12;
+    	beamY = 2;
     	beamAngle = 0;
 	} else if(worldModel->getUNum() == 2){
-		beamX = -HALF_FIELD_X +14;
+		beamX = -HALF_FIELD_X + 12;
     	beamY = -2;
     	beamAngle = 0;
     }
@@ -67,12 +67,12 @@ SkillType NaoBehavior::goToPosTheirKickOff(int pNum){
     double angle = -1;
 
     if(pNum == 1){
-		x = -HALF_FIELD_X+13;
-    	y =2;
+		x = -HALF_FIELD_X + 12;
+    	y = 1;
     	angle = 0;
 	} else if(pNum == 2){
-		x = -HALF_FIELD_X+10;
-    	y = -2;
+		x = -HALF_FIELD_X + 5;
+    	y = 0;
     	angle = 0;
     }    
 
@@ -85,12 +85,12 @@ SkillType NaoBehavior::goToPosOurKickOff(int pNum){
     double angle = -1;
 
     if(pNum == 1){
-		x = 1;
-    	y = 1;
+		x = 0;
+    	y = 0;
     	angle = 0;
 	} else if(pNum == 2){
-		x = -HALF_FIELD_X +14;
-    	y = -2;
+		x = -HALF_FIELD_X +14.5;
+    	y = -2.5;
     	angle = 0;
     }    
 
@@ -158,23 +158,11 @@ SkillType NaoBehavior::selectSkill() {
     if (playMode == PM_BEFORE_KICK_OFF){
         return goToPosBeforeKickOff(pNum);
     }
-    // else if (playMode == PM_KICK_OFF_LEFT){
-    //     return goToPosOurKickOff(pNum);
-    // }
+    else if (playMode == PM_KICK_OFF_LEFT){
+        return goToPosOurKickOff(pNum);
+    }
     else if (playMode == PM_KICK_OFF_RIGHT){
         return goToPosTheirKickOff(pNum);
-    }
-    else if (playMode == PM_GOAL_KICK_RIGHT){
-        return goToTargetRelative(VecPosition(-1,0,0), 0);
-    }
-    else if (playMode == PM_DIRECT_FREE_KICK_RIGHT){
-        return goToTargetRelative(VecPosition(-1,0,0), 0);
-    }
-    else if (playMode == PM_FREE_KICK_RIGHT){
-        return goToTargetRelative(VecPosition(-1,0,0), 0);
-    }
-    else if (playMode == PM_PASS_RIGHT){
-        return goToTargetRelative(VecPosition(-1,0,0), 0);
     }
     else {
         return scoreGoal();
@@ -185,11 +173,7 @@ SkillType NaoBehavior::selectSkill() {
 SkillType NaoBehavior::scoreGoal(){
     int playerClosestToBall = -1;
     double closestDistanceToBall = 10000;
-    double closestOppDistanceToBall = 10000;
-    VecPosition tmate;
-    VecPosition opponentDistance;
     for(int i = WO_TEAMMATE1; i < WO_TEAMMATE1+NUM_AGENTS; ++i) {
-        opponentDistance = worldModel->getOpponent(i);
         VecPosition temp;
         int playerNum = i - WO_TEAMMATE1 + 1;
         if (worldModel->getUNum() == playerNum) {
@@ -198,7 +182,6 @@ SkillType NaoBehavior::scoreGoal(){
         } else {
             WorldObject* teammate = worldModel->getWorldObject( i );
             if (teammate->validPosition) {
-                tmate = teammate->pos;
                 temp = teammate->pos;
             } else {
                 continue;
@@ -206,39 +189,19 @@ SkillType NaoBehavior::scoreGoal(){
         }
         temp.setZ(0);
         double distanceToBall = temp.getDistanceTo(ball);
-        double oppDistanceToBall = opponentDistance.getDistanceTo(ball);
         if (distanceToBall < closestDistanceToBall) {
             playerClosestToBall = playerNum;
             closestDistanceToBall = distanceToBall;
         }
-        if (oppDistanceToBall < closestOppDistanceToBall) {
-            //playerClosestToBall = playerNum;
-            closestOppDistanceToBall = oppDistanceToBall;
-        }
     }
     if (playerClosestToBall == worldModel->getUNum()) {
         // Have closest player kick the ball toward the goal
-        if (worldModel->getPlayMode() == PM_KICK_OFF_LEFT){
-            return kickBall(KICK_IK, VecPosition(HALF_FIELD_X, 0, 0));
-            //return kickBall(KICK_IK, tmate+VecPosition(2, -1, 0));
-        }
-        else if (worldModel->getPlayMode() == PM_DIRECT_FREE_KICK_LEFT){
-            return kickBall(KICK_IK, VecPosition(HALF_FIELD_X, 0, 0));
-        }
-        else if (me.getDistanceTo(VecPosition(HALF_FIELD_X, 0, 0)) > 6){
-            //return kickBall(KICK_DRIBBLE, VecPosition(HALF_FIELD_X, 0, 0));
-            if (closestOppDistanceToBall > 4){
-                return kickBall(KICK_DRIBBLE, VecPosition(HALF_FIELD_X, 0, 0));
-            }
-            else {
-                //cout << "closest dist of opp to ball: " << closestOppDistanceToBall << endl;
-                return kickBall(KICK_IK, tmate+VecPosition(2, -1, 0));
-            }
+        if (me.getDistanceTo(VecPosition(HALF_FIELD_X, 0, 0)) > 4){
+            return kickBall(KICK_DRIBBLE, VecPosition(HALF_FIELD_X, 0, 0));
         }
         else {
             return kickBall(KICK_IK, VecPosition(HALF_FIELD_X, 0, 0));
         }
-        
         
     } else {
         // Our desired target position on the circle
@@ -246,11 +209,14 @@ SkillType NaoBehavior::scoreGoal(){
         VecPosition target = ball;
 
         // Adjust target to not be too close to teammates or the ball
-        target = collisionAvoidance(true /*teammate*/, true/*opponent*/, false/*ball*/, 8/*proximity thresh*/, 1/*collision thresh*/, target, true/*keepDistance*/);
+        target = collisionAvoidance(true /*teammate*/, false/*opponent*/, true/*ball*/, 5/*proximity thresh*/, .5/*collision thresh*/, target, true/*keepDistance*/);
 
         if (me.getDistanceTo(target) < .25) {
             // Close enough to desired position and orientation so just stand
             return SKILL_STAND;
+        } else if (me.getDistanceTo(target) < .5) {
+            // Close to desired position so start turning to face center
+            return goToTargetRelative(worldModel->g2l(target), 30);
         } else {
             // Move toward target location
             return goToTarget(target);
@@ -321,5 +287,3 @@ SkillType NaoBehavior::demoKickingCircle() {
         }
     }
 }
-
-
