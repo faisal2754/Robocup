@@ -9,7 +9,7 @@ extern int agentBodyType;
  */
 void NaoBehavior::beam( double& beamX, double& beamY, double& beamAngle ) {
     if(worldModel->getUNum() == 1){
-        beamX = -HALF_FIELD_X + 12;
+        beamX = -HALF_FIELD_X + 14;
     } else {
         beamX = -HALF_FIELD_X+1;
     }
@@ -21,7 +21,10 @@ void NaoBehavior::beam( double& beamX, double& beamY, double& beamAngle ) {
 SkillType NaoBehavior::selectSkill() {
 
     int playerClosestToBall = -1;
+    int opponentClossestToBall = -1;
     double closestDistanceToBall = 10000;
+    double closestDistanceToBall1 = 10000;
+
     for(int i = WO_TEAMMATE1; i < WO_TEAMMATE1+NUM_AGENTS; ++i) {
         VecPosition temp;
         int playerNum = i - WO_TEAMMATE1 + 1;
@@ -45,9 +48,27 @@ SkillType NaoBehavior::selectSkill() {
         }
     }
 
+ for(int i = WO_OPPONENT1; i < WO_OPPONENT1+NUM_AGENTS; ++i) {
+        VecPosition temp;
+        int oppNum = i - WO_OPPONENT1 + 1;
+        WorldObject* opponent = worldModel->getWorldObject( i );
+        if (opponent->validPosition) {
+            temp = opponent->pos;
+        } else {
+            continue;
+        }
+        temp.setZ(0);
+
+        double distanceToBall = temp.getDistanceTo(ball);
+        if (distanceToBall < closestDistanceToBall1) {
+            opponentClossestToBall = oppNum;
+            closestDistanceToBall1 = distanceToBall;
+        }
+    }
+
     if(!improperPlayMode(worldModel->getPlayMode()) && !kickPlayMode(worldModel->getPlayMode(), false)){
         if(playerClosestToBall == worldModel->getUNum()){
-            return Striker();
+            return Striker(opponentClossestToBall);
         } else {
             return Defender();
         }
@@ -68,7 +89,7 @@ SkillType NaoBehavior::selectSkill() {
     }
 }
 
-SkillType NaoBehavior::Striker() {
+SkillType NaoBehavior::Striker(int opponentClossestToBall) {
 
     worldModel->getRVSender()->drawPoint(HALF_FIELD_X, 0, 0);
     worldModel->getRVSender()->drawPoint(HALF_FIELD_X, ball.getY(), 0);
@@ -78,11 +99,15 @@ SkillType NaoBehavior::Striker() {
     if(ball.getX() > worldModel->getMyPosition().getX() && worldModel->getMyPosition().getDistanceTo(ball) < 1 ){
         if(worldModel->getOppRightGoalPost().getDistanceTo(ball) < 4){
             return kickBall(KICK_IK,VecPosition(HALF_FIELD_X, 0, 0));
-        } else if( worldModel->getOppRightGoalPost().getDistanceTo(ball) > 12 ) {
-            VecPosition target = VecPosition(HALF_FIELD_X/2, HALF_FIELD_Y-2, 0);
-            return kickBall(KICK_DRIBBLE,target);
-        } else {
+        }
+        //  else if(worldModel->getOpponent(opponentClossestToBall).getDistanceTo(worldModel->getMyPosition()) < 2) {
+        //     VecPosition target = VecPosition(HALF_FIELD_X, 0, 0);
+        //     target = collisionAvoidance(true /*teammate*/, true/*opponent*/, false/*ball*/, 0.5/*proximity thresh*/, .5/*collision thresh*/, target, false/*keepDistance*/);
+        //     return kickBall(KICK_FORWARD,target);
+        // } 
+        else {
             VecPosition target = VecPosition(HALF_FIELD_X, 0, 0);
+            target = collisionAvoidance(true /*teammate*/, true/*opponent*/, false/*ball*/, 0.5/*proximity thresh*/, .5/*collision thresh*/, target, false/*keepDistance*/);
             return kickBall(KICK_DRIBBLE,target);
         }
 
@@ -95,6 +120,7 @@ SkillType NaoBehavior::Striker() {
 
 SkillType NaoBehavior::Defender() {
 
+    // return SKILL_CENTRAL_SPLIT_DIVE;
     double y1 = ball.getY()/(ball.getX()+HALF_FIELD_X);
     worldModel->getRVSender()->clearStaticDrawings();
     worldModel->getRVSender()->drawLine(ball.getX()-HALF_FIELD_X, 0, ball.getX(), ball.getY());

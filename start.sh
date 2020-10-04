@@ -9,7 +9,7 @@ BINARY_DIR="."
 LIBS_DIR="./libs"
 NUM_PLAYERS=2
 
-team="Andries FC"
+team="AndriesFC"
 host="localhost"
 port=3100
 paramsfile=paramfiles/defaultParams.txt

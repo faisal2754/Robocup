@@ -226,7 +226,7 @@ protected:
     double getStdNameParameter(const SkillType kick_skill, const std::string& parameter);
     void getSkillsForKickType(int kickType, SkillType skillsForType[]);
 
-    SkillType Striker();
+    SkillType Striker(int opponentClossestToBall);
     SkillType Defender();
 
 public:

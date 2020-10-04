@@ -1,0 +1,3 @@
+/home/phoenixnerd/robocup/witsCode/CMakeFiles/rebuild_cache.dir
+/home/phoenixnerd/robocup/witsCode/CMakeFiles/agentspark.dir
+/home/phoenixnerd/robocup/witsCode/CMakeFiles/edit_cache.dir

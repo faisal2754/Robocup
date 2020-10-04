@@ -97,6 +97,10 @@ NaoBehavior(const std::string teamName, int uNum, const map<string, string>& nam
         readSkillsFromFile( "./skills/kick_ik_0.skl" );
         // end ik skills
 
+        //lateral dive right
+        readSkillsFromFile( "./skills/lateral_dive.skl");
+        readSkillsFromFile( "./skills/central_split_dive.skl");
+
     }
     catch( std::string& what ) {
         cerr << "Exception caught: " << what << endl;

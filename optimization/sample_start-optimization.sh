@@ -17,11 +17,11 @@ echo -n "and I am on: "
 hostname
 echo "Agent port: $SPARK_AGENTPORT, Monitor port: $SPARK_SERVERPORT"
 
-rcssserver3d --agent-port $SPARK_AGENTPORT --server-port $SPARK_SERVERPORT &
+../../rcssserver3d/run.sh --agent-port $SPARK_AGENTPORT --server-port $SPARK_SERVERPORT &
 PID=$!
 
 #To view task while it runs uncomment the following line
-#<roboviz_start_script> --serverPort=$SPARK_SERVERPORT &
+sudo ../../roboviz/run.sh --serverPort=$SPARK_SERVERPORT &
 
 sleep 5
 DIR_SCRIPT="$( cd "$( dirname "$0" )" && pwd )" 
